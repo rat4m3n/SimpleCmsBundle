@@ -29,6 +29,7 @@ class PageAdmin extends BaseAdmin
     {
         $formMapper
             ->with('General')
+                ->add('review', 'review')
                 ->add('parent', 'doctrine_phpcr_type_tree_model', array('choice_list' => array(), 'root_node' => $this->root))
                 ->add('name', 'text', array('label' => 'Last URL part'))
                 ->add('label', null, array('required' => false, 'label' => 'Menu label'))

@@ -23,5 +23,9 @@
             </call>
         </service>
 
+        <service id="symfony_cmf_simple_cms.admin.form_type.review" class="Symfony\Cmf\Bundle\SimpleCmsBundle\Form\ReviewType">
+            <tag name="form.type" alias="review"/>
+        </service>
+
     </services>
 </container>

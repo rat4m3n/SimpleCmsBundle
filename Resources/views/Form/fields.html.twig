@@ -1,0 +1,6 @@
+{% block review_widget %}
+    {% set document = form.vars.data %}
+    {% if document.path is defined %}
+        <a href="{{ path(document) }}#{{ document.title }}">{{ document.title }}</a>
+    {% endif %}
+{% endblock %}
