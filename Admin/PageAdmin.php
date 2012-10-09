@@ -2,12 +2,15 @@
 
 namespace Symfony\Cmf\Bundle\SimpleCmsBundle\Admin;
 
-use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\Admin;
+use Symfony\Cmf\Bundle\SimpleCmsBundle\Document\MultilangPage;
+use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin AS BaseAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 
-class PageAdmin extends Admin
+class PageAdmin extends BaseAdmin
 {
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -35,6 +38,24 @@ class PageAdmin extends Admin
                 ->add('publishEndDate', null, array('required' => false, 'label' => 'End date'))
                 ->add('body', 'textarea')
             ->end();
+    }
+
+    protected function configureSideMenu(MenuItemInterface $menu, $action, Admin $childAdmin = null)
+    {
+        if ('edit' !== $action) {
+            return;
+        }
+
+        $page = $this->getSubject();
+        $uri = $this->routeGenerator->generate($page);
+        if ($page instanceof MultilangPage) {
+            $uri.= '#'.$page->getTitle();
+        }
+
+        $menu->addChild(
+            'Review',
+            array('uri' => $uri)
+        );
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
